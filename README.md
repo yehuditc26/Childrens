@@ -55,7 +55,6 @@ PUT https://tipa.co.il/turns/1
 
 DELETE https://tipa.co.il/turns/1
 
-בחרתי לא למפות Routes למחיקת תינוק ואחות. במקום זה אוסיף Routes לעדכון סטטוס
 
 
 
