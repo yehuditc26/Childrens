@@ -8,21 +8,22 @@ namespace Childrens.Controllers
     [ApiController]
     public class TicherController : ControllerBase
     {
-        public static List<Ticher> Tichers = new List<Ticher> { new Ticher { Id = 1, Name = "shoshi" } };
-        int id = Tichers.Last().Id;
+        private static DataContext _context = new DataContext();
+
+        int id = _context.Tichers.Last().Id;
 
         // GET: api/<KinderGartenTicherController>
         [HttpGet]
         public List<Ticher> Get()
         {
-            return Tichers;
+            return _context.Tichers;
         }
 
         // GET api/<KinderGartenTicherController>/5
         [HttpGet("{id}")]
         public Ticher Get(int id)
         {
-            var selectedTicher = Tichers.Find(t => t.Id == id);
+            var selectedTicher = _context.Tichers.Find(t => t.Id == id);
             return selectedTicher;
         }
 
@@ -30,7 +31,7 @@ namespace Childrens.Controllers
         [HttpPost]
         public void Post([FromBody] string name)
         {
-            Tichers.Add(new Ticher { Id = id, Name = name });
+            _context.Tichers.Add(new Ticher { Id = id, Name = name });
             id++;
         }
 
@@ -38,7 +39,7 @@ namespace Childrens.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string name)
         {
-            var selectedTicher = Tichers.Find(t => t.Id == id);
+            var selectedTicher = _context.Tichers.Find(t => t.Id == id);
             selectedTicher.Name= name;  
         }
 

@@ -9,23 +9,24 @@ namespace Childrens.Controllers
 
     public class KinderGartenController : ControllerBase
     {
-        public static List<KinderGarten> KinderGartens = new List<KinderGarten> { new KinderGarten { Id = 1, Name = "smallChildrens" }, new KinderGarten { Id = 2, Name = "MediumChikdrens" } };
+        private static DataContext _context = new DataContext();
+        
 
-        int id = KinderGartens.Last().Id + 1;
+        int id = _context.KinderGartens.Last().Id + 1;
 
 
         // GET: api/<KinderGardenController>
         [HttpGet]
         public List<KinderGarten> Get()
         {
-            return KinderGartens;
+            return _context.KinderGartens;
         }
 
         // GET api/<KinderGardenController>/5
         [HttpGet("{id}")]
         public KinderGarten Get(int id)
         {
-            var selectedKinderG = KinderGartens.Find(k => k.Id == id);
+            var selectedKinderG = _context.KinderGartens.Find(k => k.Id == id);
             return selectedKinderG;
         }
 
@@ -33,7 +34,7 @@ namespace Childrens.Controllers
         [HttpPost]
         public void Post([FromBody] string name)
         {
-            KinderGartens.Add(new KinderGarten { Id = id, Name = name });
+            _context.KinderGartens.Add(new KinderGarten { Id = id, Name = name });
             id++;
         }
 
@@ -41,7 +42,7 @@ namespace Childrens.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string name)
         {
-            var selectedKinderG = KinderGartens.Find(k => k.Id == id);
+            var selectedKinderG = _context.KinderGartens.Find(k => k.Id == id);
             selectedKinderG.Name = name;
         }
 
@@ -49,8 +50,8 @@ namespace Childrens.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var selectedKinderG = KinderGartens.Find(k => k.Id == id);
-            KinderGartens.Remove(selectedKinderG);
+            var selectedKinderG = _context.KinderGartens.Find(k => k.Id == id);
+            _context.KinderGartens.Remove(selectedKinderG);
         }
     }
 }

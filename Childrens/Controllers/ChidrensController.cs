@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Childrens.Service;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,14 +10,16 @@ namespace Childrens.Controllers
     [ApiController]
     public class ChidrensController : ControllerBase
     {
-        public static List<Children> Chidrens = new List<Children> { new Children { Id = 1, Name = "yosi" }, new Children { Id = 2, Name = "chaim" } };
-        int id = Chidrens.Last().Id + 1;
+        private static ChildrensService _context = new ChildrensService();
+        
+        //public static List<Children> Chidrens = new List<Children> { new Children { Id = 1, Name = "yosi" }, new Children { Id = 2, Name = "chaim" } };
+        int id = _context.Childrens.Last().Id + 1;
 
         // GET: api/<ChidrensController>
         [HttpGet]
         public IEnumerable<Children> Get()
         {
-            return Chidrens;
+            return _context.Childrens;
         }
 
         // GET api/<ChidrensController>/5
@@ -24,7 +27,7 @@ namespace Childrens.Controllers
         public Children Get(int id)
         {
             //var selectChild = new Children { Id = 3, Name = "yoni" };
-            var selectChild = Chidrens.Find(c => c.Id == id);
+            var selectChild = _context.Childrens.Find(c => c.Id == id);
             return selectChild;
         }
 
@@ -32,7 +35,7 @@ namespace Childrens.Controllers
         [HttpPost]
         public void Post([FromBody] string name)
         {
-            Chidrens.Add(new Children { Id = id, Name = name });
+            _context.Childrens.Add(new Children { Id = id, Name = name });
             id++;
 
         }
@@ -41,7 +44,7 @@ namespace Childrens.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string name)
         {
-            var updateChild = Chidrens.Find(c => c.Id == id);
+            var updateChild = _context.Childrens.Find(c => c.Id == id);
             updateChild.Name = name;
         }
 
@@ -49,8 +52,8 @@ namespace Childrens.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var updateChild = Chidrens.Find(c => c.Id == id);
-            Chidrens.Remove(updateChild);
+            var updateChild = _context.Childrens.Find(c => c.Id == id);
+            _context.Childrens.Remove(updateChild);
 
         }
     }
